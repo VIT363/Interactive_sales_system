@@ -1,19 +1,20 @@
 package org.example.service;
 
-import org.example.entity.OrderImpl;
+import org.example.exception.OrderParseException;
+import org.example.order.OrderImpl;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class OrderParserImpl implements InterfaceAdaptingSeparator {
+public class OrderParserImpl implements OrderParser {
 
     public OrderImpl parse(String line) {
         if (line == null || line.isBlank()) {
-            throw new IllegalArgumentException("Пустая строка в файле заказов");
+            throw new OrderParseException("Пустая строка в файле заказов", null);
         }
         String[] parts = line.split("\\|");
         if (parts.length != 3) {
-            throw new IllegalArgumentException("Неверный формат строки (ожидается: дата|компания|количество): " + line);
+            throw new OrderParseException("Неверный формат строки (ожидается: дата|компания|количество): " + line, null);
         }
         LocalDateTime dateTime = LocalDateTime.parse(parts[0], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         String company = parts[1];
