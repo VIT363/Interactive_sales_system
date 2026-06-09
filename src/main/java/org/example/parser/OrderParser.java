@@ -1,4 +1,4 @@
-package org.example.service;
+package org.example.parser;
 
 import org.example.order.OrderImpl;
 

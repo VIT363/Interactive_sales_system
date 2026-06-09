@@ -8,5 +8,5 @@ public interface Order {
 
     String companyName();
 
-    int amount();
+    Integer amount();
 }

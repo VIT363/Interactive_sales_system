@@ -2,6 +2,8 @@ package org.example.service;
 
 import org.example.exception.*;
 import org.example.order.OrderImpl;
+import org.example.order.CompanyCost;
+import org.example.parser.OrderParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,14 +12,13 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class OrderFileManager {
 
     public List<OrderImpl> readOrders(String resourceFileName, OrderParser parser) {
         if (resourceFileName == null) {
-            throw new BadParametersException("Имя файла ресурса не может быть null" + null);
+            throw new BadParametersException("Имя файла ресурса не может быть null");
         }
         if (parser == null) {
             throw new BadParametersException("OrderParser не может быть null" + resourceFileName);
@@ -44,9 +45,9 @@ public class OrderFileManager {
         }
     }
 
-    public void writeResults(String outputFile, Map<String, Double> totalByCompany) {
-        List<String> lines = totalByCompany.entrySet().stream()
-                .map(entry -> entry.getKey() + " - " + entry.getValue())
+    public void writeResults(String outputFile, List<CompanyCost> totalByCompany) {
+        List<String> lines = totalByCompany.stream()
+                .map(CompanyCost::toString)
                 .collect(Collectors.toList());
         try {
             Files.write(Path.of(outputFile), lines);

@@ -10,27 +10,34 @@ import java.util.stream.IntStream;
 
 public class OrderService {
 
-    public Map<String, Double> calculateTotalByCompany(List<OrderImpl> orders,
-                                                       int pricePerKg,
-                                                       int initialDiscount,
-                                                       int discountStep) {
+    public List<CompanyCost> calculateTotalByCompany(List<OrderImpl> orders,
+                                                     int pricePerKg,
+                                                     int initialDiscount,
+                                                     int discountStep) {
         if (orders == null) {
             throw new OrderParseException("Список заказов не может быть null", null);
         }
         List<OrderImpl> sortedOrders = orders.stream()
-                .sorted(Comparator.comparing(OrderImpl::createdDateTime))
+                .sorted(Comparator.comparing(OrderImpl::createdDateTime,
+                        Comparator.nullsLast(Comparator.naturalOrder())))
                 .toList();
-
-        return IntStream.range(0, sortedOrders.size())
+        List<CompanyCost> orderCosts = IntStream.range(0, sortedOrders.size())
                 .mapToObj(i -> {
                     OrderImpl order = sortedOrders.get(i);
                     int discount = Math.max(0, initialDiscount - i * discountStep);
-                    double cost = order.amount() * pricePerKg * (100 - discount) / 100.0;
-                    return Map.entry(order.companyName(), cost);
+                    int cost = order.amount() * pricePerKg * (100 - discount) / 100;
+                    return new CompanyCost(order.companyName(), cost);
                 })
+                .toList();
+
+        Map<String, Integer> totalByCompany = orderCosts.stream()
                 .collect(Collectors.groupingBy(
-                        Map.Entry::getKey,
-                        Collectors.summingDouble(Map.Entry::getValue)
+                        CompanyCost::company,
+                        Collectors.summingInt(CompanyCost::cost)
                 ));
+
+        return totalByCompany.entrySet().stream()
+                .map(entry -> new CompanyCost(entry.getKey(), entry.getValue()))
+                .toList();
     }
 }

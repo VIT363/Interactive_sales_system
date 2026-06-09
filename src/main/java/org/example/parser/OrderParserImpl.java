@@ -1,4 +1,4 @@
-package org.example.service;
+package org.example.parser;
 
 import org.example.exception.OrderParseException;
 import org.example.order.OrderImpl;
@@ -18,7 +18,7 @@ public class OrderParserImpl implements OrderParser {
         }
         LocalDateTime dateTime = LocalDateTime.parse(parts[0], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         String company = parts[1];
-        int amount = Integer.parseInt(parts[2]);
+        Integer amount = Integer.parseInt(parts[2]);
         return new OrderImpl(dateTime, company, amount);
     }
 }
