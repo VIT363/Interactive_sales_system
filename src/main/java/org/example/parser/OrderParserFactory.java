@@ -1,6 +1,6 @@
 package org.example.parser;
 
-public class ParserFactory {
+public class  OrderParserFactory {
 
     public static OrderParser createParser(String fileName) {
         if (fileName.endsWith(".txt")) {

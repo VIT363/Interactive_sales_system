@@ -1,9 +1,9 @@
 package org.example.manager;
 
 import org.example.order.OrderImpl;
-import org.example.order.OrderService;
-import org.example.order.CompanyCost;
-import org.example.parser.ParserFactory;
+import org.example.parser.OrderParserFactory;
+import org.example.service.OrderService;
+import org.example.order.OrderInvoice;
 import org.example.service.OrderFileManager;
 import org.example.parser.OrderParser;
 
@@ -24,11 +24,11 @@ public class OrderManager {
                               int pricePerKg,
                               int initialDiscount,
                               int discountStep) {
-        OrderParser parser = ParserFactory.createParser(resourceFileName);
+        OrderParser parser =  OrderParserFactory.createParser(resourceFileName);
 
         List<OrderImpl> orders = orderFileManager.readOrders(resourceFileName, parser);
 
-        List<CompanyCost> totalByCompany = orderService.calculateTotalByCompany(
+        List<OrderInvoice> totalByCompany = orderService.calculateTotalByCompany(
                 orders, pricePerKg, initialDiscount, discountStep);
 
         orderFileManager.writeResults(outputFile, totalByCompany);

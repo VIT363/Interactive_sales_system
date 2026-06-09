@@ -2,7 +2,7 @@ package org.example.service;
 
 import org.example.exception.*;
 import org.example.order.OrderImpl;
-import org.example.order.CompanyCost;
+import org.example.order.OrderInvoice;
 import org.example.parser.OrderParser;
 
 import java.io.BufferedReader;
@@ -45,9 +45,9 @@ public class OrderFileManager {
         }
     }
 
-    public void writeResults(String outputFile, List<CompanyCost> totalByCompany) {
+    public void writeResults(String outputFile, List<OrderInvoice> totalByCompany) {
         List<String> lines = totalByCompany.stream()
-                .map(CompanyCost::toString)
+                .map(OrderInvoice::toString)
                 .collect(Collectors.toList());
         try {
             Files.write(Path.of(outputFile), lines);
