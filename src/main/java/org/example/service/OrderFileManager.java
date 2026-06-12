@@ -1,7 +1,7 @@
 package org.example.service;
 
 import org.example.exception.*;
-import org.example.order.OrderImpl;
+import org.example.order.Order;
 import org.example.order.OrderInvoice;
 import org.example.parser.OrderParser;
 
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class OrderFileManager {
 
-    public List<OrderImpl> readOrders(String resourceFileName, OrderParser parser) {
+    public List<Order> readOrders(String resourceFileName, OrderParser parser) {
         if (resourceFileName == null) {
             throw new BadParametersException("Имя файла ресурса не может быть null");
         }

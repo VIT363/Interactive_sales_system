@@ -1,6 +1,6 @@
 package org.example.parser;
 
-import org.example.order.OrderImpl;
+import org.example.order.Order;
 
 public class OrderParserAdapter implements OrderParser {
     private final OrderParser orderParser;
@@ -10,7 +10,7 @@ public class OrderParserAdapter implements OrderParser {
     }
 
     @Override
-    public OrderImpl parse(String str) {
+    public Order parse(String str) {
         String converted = str.replace("#", "|");
         return orderParser.parse(converted);
     }

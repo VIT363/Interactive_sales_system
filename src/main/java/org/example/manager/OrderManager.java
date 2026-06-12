@@ -1,6 +1,6 @@
 package org.example.manager;
 
-import org.example.order.OrderImpl;
+import org.example.order.Order;
 import org.example.parser.OrderParserFactory;
 import org.example.service.OrderService;
 import org.example.order.OrderInvoice;
@@ -26,7 +26,7 @@ public class OrderManager {
                               int discountStep) {
         OrderParser parser =  OrderParserFactory.createParser(resourceFileName);
 
-        List<OrderImpl> orders = orderFileManager.readOrders(resourceFileName, parser);
+        List<Order> orders = orderFileManager.readOrders(resourceFileName, parser);
 
         List<OrderInvoice> totalByCompany = orderService.calculateTotalByCompany(
                 orders, pricePerKg, initialDiscount, discountStep);

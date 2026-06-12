@@ -1,8 +1,8 @@
 package org.example.parser;
 
-import org.example.order.OrderImpl;
+import org.example.order.Order;
 
 public interface OrderParser {
 
-    OrderImpl parse(String str);
+    Order parse(String str);
 }

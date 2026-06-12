@@ -1,14 +1,14 @@
 package org.example.parser;
 
 import org.example.exception.OrderParseException;
-import org.example.order.OrderImpl;
+import org.example.order.Order;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class OrderParserImpl implements OrderParser {
 
-    public OrderImpl parse(String line) {
+    public Order parse(String line) {
         if (line == null || line.isBlank()) {
             throw new OrderParseException("Пустая строка в файле заказов", null);
         }
@@ -19,6 +19,6 @@ public class OrderParserImpl implements OrderParser {
         LocalDateTime dateTime = LocalDateTime.parse(parts[0], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         String company = parts[1];
         Integer amount = Integer.parseInt(parts[2]);
-        return new OrderImpl(dateTime, company, amount);
+        return new Order(dateTime, company, amount);
     }
 }
